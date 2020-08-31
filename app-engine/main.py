@@ -25,9 +25,6 @@ db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
 
 app = Flask(__name__)
 
-
-@app.route('/')
-
 def init():
         
          # When deployed to App Engine, the `GAE_ENV` environment variable will be
@@ -45,7 +42,7 @@ def init():
         host = '127.0.0.1'
         cnx = pymysql.connect(user=db_user, password=db_password,
                               host=host, db=db_name)
-        
+@app.route('/')       
 def main():
     init()    
     with cnx.cursor() as cursor:
