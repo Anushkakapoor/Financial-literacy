@@ -27,35 +27,10 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def main():
+
+def init():
         
-    with cnx.cursor() as cursor:
-        cursor.execute('select * from transactions;')
-        result = cursor.fetchall()
-        current_msg = result[0][0]
-    cnx.close()
-
-    return str(current_msg)
-# [END gae_python37_cloudsql_mysql]
-
-@app.route('/transactionByUserId',methods=['POST'])
-def get_user_transaction():
-    
-    if request.method == 'POST':
-        user_id = flask.request.form.get('user_id')
-            
-    with cnx.cursor() as cursor:
-        cursor.execute('select * from transactions where customer_id=' + user_id +';')
-        result = cursor.fetchall()
-        current_msg = result
-    cnx.close()
-
-    return flask.jsonify(current_msg)
-# [END gae_python37_cloudsql_mysql]
-
-if __name__ == '__main__':
-    
-    # When deployed to App Engine, the `GAE_ENV` environment variable will be
+         # When deployed to App Engine, the `GAE_ENV` environment variable will be
     # set to `standard`
     if os.environ.get('GAE_ENV') == 'standard':
         # If deployed, use the local socket interface for accessing Cloud SQL
@@ -71,4 +46,34 @@ if __name__ == '__main__':
         cnx = pymysql.connect(user=db_user, password=db_password,
                               host=host, db=db_name)
         
-    app.run(host='127.0.0.1', port=8080, debug=True)
+def main():
+    init()    
+    with cnx.cursor() as cursor:
+        cursor.execute('select * from transactions;')
+        result = cursor.fetchall()
+        current_msg = result[0][0]
+    cnx.close()
+
+    return str(current_msg)
+# [END gae_python37_cloudsql_mysql]
+
+@app.route('/transactionByUserId',methods=['POST'])
+def get_user_transaction():
+    init()
+    if request.method == 'POST':
+        user_id = flask.request.form.get('user_id')
+            
+    with cnx.cursor() as cursor:
+        cursor.execute('select * from transactions where customer_id=' + user_id +';')
+        result = cursor.fetchall()
+        current_msg = result
+    cnx.close()
+
+    return flask.jsonify(current_msg)
+# [END gae_python37_cloudsql_mysql]
+
+
+
+if __name__ == '__main__':
+
+    
