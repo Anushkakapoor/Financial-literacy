@@ -48,7 +48,7 @@ def main():
     with cnx.cursor() as cursor:
         cursor.execute('select * from transactions;')
         result = cursor.fetchall()
-        current_msg = result[0][0]
+        current_msg = result
     cnx.close()
 
     return str(current_msg)
@@ -69,8 +69,7 @@ def get_user_transaction():
     return flask.jsonify(current_msg)
 # [END gae_python37_cloudsql_mysql]
 
-
-
 if __name__ == '__main__':
+    app.run(host='127.0.0.1', port=8080, debug=True)
 
     
