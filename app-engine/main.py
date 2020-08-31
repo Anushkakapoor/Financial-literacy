@@ -28,7 +28,7 @@ app = Flask(__name__)
 cnx=init
 def init():
         
-         # When deployed to App Engine, the `GAE_ENV` environment variable will be
+    # When deployed to App Engine, the `GAE_ENV` environment variable will be
     # set to `standard`
     if os.environ.get('GAE_ENV') == 'standard':
         # If deployed, use the local socket interface for accessing Cloud SQL
