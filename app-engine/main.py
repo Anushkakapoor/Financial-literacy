@@ -25,7 +25,6 @@ db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
 
 app = Flask(__name__)
 
-cnx=init
 def init():
         
     # When deployed to App Engine, the `GAE_ENV` environment variable will be
@@ -46,7 +45,7 @@ def init():
         return cnx
 @app.route('/')       
 def main():
-    init()    
+    cnx=init()    
     with cnx.cursor() as cursor:
         cursor.execute('select * from transactions;')
         result = cursor.fetchall()
@@ -58,7 +57,7 @@ def main():
 
 @app.route('/transactionByUserId',methods=['POST'])
 def get_user_transaction():
-    init()
+    cnx=init()
     if request.method == 'POST':
         user_id = flask.request.form.get('user_id')
             
