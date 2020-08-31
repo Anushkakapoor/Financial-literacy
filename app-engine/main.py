@@ -25,6 +25,7 @@ db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
 
 app = Flask(__name__)
 
+cnx=None
 def init():
         
          # When deployed to App Engine, the `GAE_ENV` environment variable will be
