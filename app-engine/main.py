@@ -28,6 +28,14 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
+    return "Connection Succefull !!"
+# [END gae_python37_cloudsql_mysql]
+
+
+
+@app.route('/transactionByUserId',methods=['POST'])
+
+def get_user_transaction():
     # When deployed to App Engine, the `GAE_ENV` environment variable will be
     # set to `standard`
     if os.environ.get('GAE_ENV') == 'standard':
@@ -43,15 +51,18 @@ def main():
         host = '127.0.0.1'
         cnx = pymysql.connect(user=db_user, password=db_password,
                               host=host, db=db_name)
+        
+    if request.method == 'POST':
+        user_id = flask.request.form.get('user_id')
+
 
     with cnx.cursor() as cursor:
-        cursor.execute('YOUR QUERY GOES HERE;')
+        cursor.execute('select * from transactions where customer_id=' + user_id +';')
         result = cursor.fetchall()
-        current_msg = result[0][0]
+        current_msg = result
     cnx.close()
 
     return str(current_msg)
-# [END gae_python37_cloudsql_mysql]
 
 
 if __name__ == '__main__':
