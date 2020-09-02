@@ -15,7 +15,7 @@
 # [START gae_python37_cloudsql_mysql]
 import os
 
-from flask import Flask
+from flask import Flask , request
 import pymysql
 
 db_user = os.environ.get('CLOUD_SQL_USERNAME')
@@ -28,7 +28,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    return "Connection Succefull !!"
+    return "Connection Successfull !!"
 # [END gae_python37_cloudsql_mysql]
 
 
@@ -53,7 +53,7 @@ def get_user_transaction():
                               host=host, db=db_name)
         
     if request.method == 'POST':
-        user_id = flask.request.form.get('user_id')
+        user_id = request.form.get('user_id')
 
 
     with cnx.cursor() as cursor:
